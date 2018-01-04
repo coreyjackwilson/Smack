@@ -43,4 +43,7 @@ config :smack, Smack.Repo,
   hostname: "localhost",
   pool_size: 10
 
+config :guardian, Guardian.
+  secret_key: "s4ZmmHYFZnmRWxm0GJ6MjlIaI3t1Tq8eMtfhvMb+NKWGvE8KSLGw9ZYHUGOLqJPi"
+
 import_config "dev.secret.exs"
