@@ -1,22 +1,13 @@
 defmodule Smack.Router do
   use Smack.Web, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-    plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.LoadResource, allow_blank: true
   end
 
   scope "/", Smack do
-    pipe_through :browser
 
     get "/", PageController, :index
   end

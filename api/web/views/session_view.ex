@@ -3,7 +3,7 @@ defmodule Smack.SessionView do
 
   def render("show.json", %{user: user, jwt: jwt}) do
     %{
-      data: render_one(user, Sling.UserView, "user.json"),
+      data: render_one(user, Smack.UserView, "user.json"),
       meta: %{token: jwt}
     }
   end
