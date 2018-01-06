@@ -36,5 +36,6 @@ defmodule Smack.Endpoint do
     key: "_smack_key",
     signing_salt: "Dq6XTImd"
 
+  plug CORSPlug
   plug Smack.Router
 end
