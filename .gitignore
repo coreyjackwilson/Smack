@@ -15,8 +15,8 @@ build
 npm-debug.log
 
 # App artifacts
-_build
-/_build
+*_build
+api/_build
 /db
 /deps
 deps
