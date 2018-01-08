@@ -3,6 +3,8 @@ defmodule Smack.UserController do
 
   alias Smack.User
 
+  plug Guardian.Plug.EnsureAuthenticated, [handler: Smack.SessionController] when action in [:rooms]
+
   def create(conn, params) do
     changeset = User.registration_changeset(%User{}, params)
 
@@ -20,4 +22,11 @@ defmodule Smack.UserController do
         |> render(Smack.ChangesetView, "error.json", changeset: changeset)
     end
   end
+
+  def rooms(conn, _params) do
+    current_user = Guardian.Plug.current_resource(conn)
+    rooms = Repo.all(assoc(current_user, :rooms))
+    render(conn, Smack.RoomView, "index.json", %{rooms: rooms})
+  end
+
 end
