@@ -5,6 +5,7 @@ defmodule Smack.Room do
     field :name, :string
     field :topic, :string
     many_to_many :users, Smack.User, join_through: "user_rooms"
+    has_many :messages, Smack.Message
 
     timestamps()
   end
