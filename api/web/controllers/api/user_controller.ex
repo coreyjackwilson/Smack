@@ -23,10 +23,11 @@ defmodule Smack.UserController do
     end
   end
 
-  def rooms(conn, _params) do
+  def rooms(conn, params) do
     current_user = Guardian.Plug.current_resource(conn)
-    rooms = Repo.all(assoc(current_user, :rooms))
-    render(conn, Smack.RoomView, "index.json", %{rooms: rooms})
+    page =
+      assoc(current_user, :rooms)
+      |> Repo.paginate(params)
+    render(conn, Smack.RoomView, "index.json", page: page)
   end
-
 end

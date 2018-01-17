@@ -1,7 +1,6 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { login } from '../../actions/session';
 import LoginForm from '../../components/LoginForm';
 import Navbar from '../../components/Navbar';
@@ -17,7 +16,7 @@ class Login extends Component {
 
   props: Props
 
-  handleLogin = data => this.props.login(data, this.context.router);
+  handleLogin = (data) => this.props.login(data, this.context.router);
 
   render() {
     return (

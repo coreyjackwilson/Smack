@@ -2,14 +2,15 @@ defmodule Smack.User do
   use Smack.Web, :model
 
   schema "users" do
-  field :username, :string
-  field :email, :string
-  field :password_hash, :string
-  field :password, :string, virtual: true
-  has_many :messages, Smack.Message
+    field :username, :string
+    field :email, :string
+    field :password_hash, :string
+    field :password, :string, virtual: true
+    many_to_many :rooms, Smack.Room, join_through: "user_rooms"
+    has_many :messages, Smack.Message
 
-  timestamps()
-end
+    timestamps()
+  end
 
   def changeset(struct, params \\ %{}) do
     struct
@@ -32,7 +33,7 @@ end
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
         put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(password))
       _ ->
-      changeset
+        changeset
     end
   end
 end

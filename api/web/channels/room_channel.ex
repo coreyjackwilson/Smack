@@ -17,7 +17,16 @@ defmodule Smack.RoomChannel do
       pagination: Smack.PaginationHelpers.pagination(page)
     }
 
+    send(self, :after_join)
     {:ok, response, assign(socket, :room, room)}
+  end
+
+  def handle_info(:after_join, socket) do
+    Smack.Presence.track(socket, socket.assigns.current_user.id, %{
+      user: Phoenix.View.render_one(socket.assigns.current_user, Smack.UserView, "user.json")
+    })
+    push(socket, "presence_state", Smack.Presence.list(socket))
+    {:noreply, socket}
   end
 
   def handle_in("new_message", params, socket) do

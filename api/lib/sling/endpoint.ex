@@ -14,6 +14,8 @@ defmodule Smack.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
+    plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
   end
 
@@ -34,8 +36,9 @@ defmodule Smack.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_smack_key",
-    signing_salt: "Dq6XTImd"
+    signing_salt: "ln/61sDv"
 
-  plug CORSPlug
+  plug Corsica, allow_headers: ~w(Accept Content-Type Authorization Origin)
+
   plug Smack.Router
 end

@@ -3,7 +3,7 @@ defmodule Smack.UserTest do
 
   alias Smack.User
 
-  @valid_attrs %{email: "some email", password_hash: "some password_hash", username: "some username"}
+  @valid_attrs %{email: "some content", password_hash: "some content", username: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

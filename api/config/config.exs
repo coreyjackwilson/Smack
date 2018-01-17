@@ -12,8 +12,8 @@ config :smack,
 # Configures the endpoint
 config :smack, Smack.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "cgESQUCcDh+ssHfKeZDFdUm7KXsbVcyaQrK7lJSRgHQw3rrkXTxY/3Fv6MFGV8lg",
-  render_errors: [view: Smack.ErrorView, accepts: ~w(json)],
+  secret_key_base: "3/ptKPtOVJInaP3ZdNcpPes+1/wohETcmNWRIAv7Ynj4MIzBBDhlPtYTkxwQBk6w",
+  render_errors: [view: Smack.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Smack.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

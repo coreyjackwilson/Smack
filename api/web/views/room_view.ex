@@ -1,8 +1,11 @@
 defmodule Smack.RoomView do
   use Smack.Web, :view
 
-  def render("index.json", %{rooms: rooms}) do
-    %{data: render_many(rooms, Smack.RoomView, "room.json")}
+  def render("index.json", %{page: page}) do
+    %{
+      data: render_many(page.entries, Smack.RoomView, "room.json"),
+      pagination: Smack.PaginationHelpers.pagination(page)
+    }
   end
 
   def render("show.json", %{room: room}) do
@@ -10,8 +13,10 @@ defmodule Smack.RoomView do
   end
 
   def render("room.json", %{room: room}) do
-    %{id: room.id,
+    %{
+      id: room.id,
       name: room.name,
-      topic: room.topic}
+      topic: room.topic
+    }
   end
 end

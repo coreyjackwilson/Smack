@@ -10,7 +10,6 @@ function connectToSocket(dispatch) {
   const token = JSON.parse(localStorage.getItem('token'));
   const socket = new Socket(`${WEBSOCKET_URL}/socket`, {
     params: { token },
-    logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data); }
   });
   socket.connect();
   dispatch({ type: 'SOCKET_CONNECTED', socket });
@@ -21,6 +20,39 @@ function setCurrentUser(dispatch, response) {
   dispatch({ type: 'AUTHENTICATION_SUCCESS', response });
   dispatch(fetchUserRooms(response.data.id));
   connectToSocket(dispatch);
+}
+
+export function login(data, router) {
+  return (dispatch) => api.post('/sessions', data)
+    .then((response) => {
+      setCurrentUser(dispatch, response);
+      dispatch(reset('login'));
+      router.transitionTo('/');
+    })
+    .catch(() => {
+      dispatch({ type: 'SHOW_ALERT', message: 'Invalid email or password' });
+    });
+}
+
+export function signup(data, router) {
+  return (dispatch) => api.post('/users', data)
+    .then((response) => {
+      setCurrentUser(dispatch, response);
+      dispatch(reset('signup'));
+      router.transitionTo('/');
+    })
+    .catch((error) => {
+      dispatch({ type: 'SIGNUP_FAILURE', error });
+    });
+}
+
+export function logout(router) {
+  return (dispatch) => api.delete('/sessions')
+    .then(() => {
+      localStorage.removeItem('token');
+      dispatch({ type: 'LOGOUT' });
+      router.transitionTo('/login');
+    });
 }
 
 export function authenticate() {
@@ -38,30 +70,3 @@ export function authenticate() {
 }
 
 export const unauthenticate = () => ({ type: 'AUTHENTICATION_FAILURE' });
-
-export function login(data, router) {
-  return dispatch => api.post('/sessions', data)
-    .then((response) => {
-      setCurrentUser(dispatch, response);
-      dispatch(reset('login'));
-      router.transitionTo('/');
-    });
-}
-
-export function signup(data, router) {
-  return dispatch => api.post('/users', data)
-    .then((response) => {
-      setCurrentUser(dispatch, response);
-      dispatch(reset('signup'));
-      router.transitionTo('/');
-    });
-}
-
-export function logout(router) {
-  return dispatch => api.delete('/sessions')
-    .then(() => {
-      localStorage.removeItem('token');
-      dispatch({ type: 'LOGOUT' });
-      router.transitionTo('/login');
-    });
-}

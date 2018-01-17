@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { css, StyleSheet } from 'aphrodite';
+import { Room } from '../../types';
 
 const styles = StyleSheet.create({
   sidebar: {
@@ -58,11 +59,6 @@ const styles = StyleSheet.create({
   },
 });
 
-type Room = {
-  id: number,
-  name: string,
-}
-
 type RoomLinkProps = {
   room: Room
 }
@@ -82,7 +78,7 @@ type Props = {
 
 const Sidebar = ({ rooms, router, onLogoutClick }: Props) =>
   <div className={css(styles.sidebar)}>
-    {rooms.map(room => <RoomLink key={room.id} room={room} />)}
+    {rooms.map((room) => <RoomLink key={room.id} room={room} />)}
     <Link
       to="/"
       activeOnlyWhenExact
